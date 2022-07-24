@@ -5,11 +5,27 @@ const Jumbotron = styled.div`
   display: flex;
   flex-direction: column;
 
-  h1 {
-    font-size: 60px;
+  ${media.min.large} {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .tagline {
+    font-size: 32px;
+
+    ${media.min.large} {
+      font-size: 60px;
+    }
 
     span {
       color: #f73d93;
+    }
+  }
+
+  ${media.min.large} {
+    .tagline-description {
+      flex-basis: 70%;
     }
   }
 `;

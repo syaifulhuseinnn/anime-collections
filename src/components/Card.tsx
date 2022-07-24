@@ -6,49 +6,32 @@ const CardList = styled.section`
   padding: 16px;
   display: grid;
   grid-template-columns: 1fr;
-  grid-gap: 80px;
+  grid-gap: 30px;
 
   ${media.min.medium} {
     grid-template-columns: repeat(2, 1fr);
   }
 
   ${media.min.large} {
-    /* grid-gap: px; */
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 25px;
   }
 
-  /* ${media.min.extra_large} {
+  ${media.min.extra_large} {
     grid-template-columns: repeat(5, 1fr);
-  } */
+  }
 `;
 
 const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* padding: 16px; */
-  /* border-radius: 10px; */
   background-color: #000000;
-  position: relative;
-  min-height: 500px;
-  transition: transform 0.2s;
   cursor: pointer;
-
-  &:hover {
-    transform: scale(1.01);
-    box-shadow: 8px 8px 0px 0px rgba(247, 61, 147, 1);
-    border: 0.1px solid #ffffff;
-  }
-
-  ${media.min.large} {
-    width: 100%;
-    min-height: unset;
-  }
+  position: relative;
 `;
 
 const CardImage = styled.img`
   height: auto;
   max-width: 100%;
   width: 100%;
-  /* border-radius: 10px; */
   ${media.min.large} {
     width: 250px;
     display: inline;
@@ -56,20 +39,16 @@ const CardImage = styled.img`
 `;
 
 const CardBody = styled.div`
-  position: absolute;
-  left: 0;
-  /* width: 100%; */
   padding: 16px;
-  /* z-index: 1; */
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  height: 100%;
-  justify-content: end;
+  gap: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  justify-content: center;
 
   ${media.min.large} {
-    width: 57%;
-    justify-content: center;
   }
 `;
 
@@ -84,7 +63,7 @@ const CardTitle = styled.h1`
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   white-space: normal;
 
   ${media.min.large} {
@@ -98,23 +77,18 @@ const CardDescription = styled.p`
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 3;
   white-space: normal;
   margin: 0;
 `;
 
 const CardCover = styled.div`
-  background: rgb(0, 0, 0);
-  background: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 35%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  background-color: rgba(16, 15, 15, 0.2);
+  backdrop-filter: blur(18px);
   position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
+  bottom: 0;
+  left: 0;
+  height: 150px;
   width: 100%;
 
   ${media.min.large} {
@@ -127,12 +101,36 @@ const CardCover = styled.div`
   }
 `;
 
-const Genres = styled.div`
+const Genres = styled.small`
   small.genres {
-    background-color: rgba(51, 71, 86, 0.5);
-    padding: 7px 14px;
-    /* border-radius: 16px; */
-    border-left: 2px solid var(--pink);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    white-space: normal;
+    margin: 0;
+    font-size: 12px;
+  }
+`;
+
+const AvgScore = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  .icon {
+    background-color: #ffc600;
+    padding: 5px 8px;
+    font-weight: bold;
+    color: var(--black);
+    /* font-size: 12px; */
+  }
+`;
+
+const Country = styled.span`
+  .year {
+    color: #ffc600;
   }
 `;
 
@@ -145,4 +143,6 @@ export {
   CardBody,
   CardDescription,
   Genres,
+  AvgScore,
+  Country,
 };

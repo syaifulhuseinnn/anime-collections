@@ -12,6 +12,8 @@ import {
   CardBody,
   CardDescription,
   Genres,
+  AvgScore,
+  Country,
 } from "../components/Card";
 import Button from "../components/Button";
 import { FaStar } from "react-icons/fa";
@@ -68,36 +70,46 @@ export default function AnimeList() {
           </NavLink>
         </Nav>
         <Jumbotron>
-          <h1>
-            you can <span>explore</span> all anime on here
-          </h1>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia
-            dignissimos excepturi accusantium eum eaque, tempore natus omnis.
-            Voluptatem expedita veniam rem, molestias amet cupiditate quisquam
-            rerum sequi repellat maxime perferendis.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio
-            dolore ut, doloremque cum temporibus facere mollitia beatae quidem
-            et atque?
-          </p>
+          <div className="tagline">
+            <h1>
+              you can <span>explore</span> all anime on here
+            </h1>
+          </div>
+          <div className="tagline-description">
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia
+              dignissimos excepturi accusantium eum eaque, tempore natus omnis.
+              Voluptatem expedita veniam rem, molestias amet cupiditate quisquam
+              rerum sequi repellat maxime perferendis.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Distinctio dolore ut, doloremque cum temporibus facere mollitia
+              beatae quidem et atque?
+            </p>
+          </div>
         </Jumbotron>
       </Header>
       <main>
         <CardList>
           {animes.Page.media.map((anime: any) => (
             <Card>
+              <CardImage src={anime.coverImage.large} />
               <CardCover />
-              <div style={{ textAlign: "end" }}>
-                <CardImage src={anime.coverImage.extraLarge} />
-              </div>
               <CardBody>
+                <Country>
+                  {anime.countryOfOrigin}
+                  {`, `}
+                  <span className="year">{anime.seasonYear}</span>
+                </Country>
+                <CardTitle>{anime.title.english || "No Title"}</CardTitle>
+                <AvgScore>
+                  <span className="icon">Average Score</span>
+                  <span>86</span>
+                </AvgScore>
                 <Genres>
                   <small className="genres">{anime.genres.join(", ")}</small>
                 </Genres>
-                <CardTitle>{anime.title.english}</CardTitle>
-                <CardDescription>{anime.description}</CardDescription>
               </CardBody>
             </Card>
           ))}

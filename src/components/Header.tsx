@@ -8,9 +8,9 @@ const Header = styled.header`
   padding: 0 16px;
 
   ${media.min.large} {
-    flex-direction: row;
+    /* flex-direction: row;
     justify-content: space-between;
-    align-content: center;
+    align-content: center; */
 
     h3 {
       font-size: 24px;
