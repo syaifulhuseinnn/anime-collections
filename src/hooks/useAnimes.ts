@@ -15,22 +15,17 @@ const GET_ANIME_LIST = gql`
         title {
           english
         }
-        description
         coverImage {
           extraLarge
           large
           medium
           color
         }
-        bannerImage
+        trending
         averageScore
-        meanScore
+        countryOfOrigin
         genres
-        trailer {
-          id
-          site
-          thumbnail
-        }
+        seasonYear
       }
     }
   }
