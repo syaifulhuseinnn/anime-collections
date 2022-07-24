@@ -22,6 +22,7 @@ const Button = styled.button<ButtonProps>`
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   display: ${(props) => (props.circle ? `block` : `inline-block`)};
   cursor: pointer;
+  min-width: 100px;
 
   ${(props) =>
     props.circle && {

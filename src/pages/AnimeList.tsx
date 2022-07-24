@@ -26,10 +26,11 @@ import useAnimes from "../hooks/useAnimes";
 export default function AnimeList() {
   const [homeLinkSelected, setHomeLinkSelected] = useState(true);
   const [collectionsLinkSelected, setCollectionsLinkSelected] = useState(false);
+  const [page, setPage] = useState<number>(1);
 
-  const { error, animes, loading } = useAnimes();
+  const { error, animes, loading } = useAnimes(page, 10);
 
-  console.log(animes);
+  console.log({ error, animes, loading });
 
   if (loading) {
     return (
@@ -42,6 +43,21 @@ export default function AnimeList() {
         }}
       >
         <div>Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <div>Something went wrong!</div>
       </div>
     );
   }
@@ -105,7 +121,7 @@ export default function AnimeList() {
                 <CardTitle>{anime.title.english || "No Title"}</CardTitle>
                 <AvgScore>
                   <span className="icon">Average Score</span>
-                  <span>86</span>
+                  <span>{anime.averageScore}</span>
                 </AvgScore>
                 <Genres>
                   <small className="genres">{anime.genres.join(", ")}</small>
@@ -114,15 +130,26 @@ export default function AnimeList() {
             </Card>
           ))}
         </CardList>
+        <section>
+          <div
+            style={{
+              display: "flex",
+              gap: "16px",
+              justifyContent: "end",
+              padding: "16px 0 24px 0",
+            }}
+          >
+            {animes.Page.pageInfo.currentPage !== 1 && (
+              <Button>Previous</Button>
+            )}
+            {animes.Page.pageInfo.hasNextPage && (
+              <Button onClick={() => setPage((prevPage) => prevPage + 1)}>
+                Next
+              </Button>
+            )}
+          </div>
+        </section>
       </main>
-
-      <Button type="button" bottomRight>
-        {/* <IconContext.Provider value={{ size: "1.5em" }}> */}
-        <FaStar />
-        &nbsp;
-        {/* </IconContext.Provider> */}
-        Add collection
-      </Button>
     </Container>
   );
 }
