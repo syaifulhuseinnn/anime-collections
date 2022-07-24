@@ -90,15 +90,6 @@ const CardCover = styled.div`
   left: 0;
   height: 150px;
   width: 100%;
-
-  ${media.min.large} {
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 1) 60%,
-      rgba(0, 0, 0, 0) 100%
-    );
-  }
 `;
 
 const Genres = styled.small`
@@ -121,10 +112,9 @@ const AvgScore = styled.div`
 
   .icon {
     background-color: #ffc600;
-    padding: 5px 8px;
-    font-weight: bold;
+    padding: 2px 7px;
     color: var(--black);
-    /* font-size: 12px; */
+    font-family: "Bebas Neue", cursive;
   }
 `;
 
