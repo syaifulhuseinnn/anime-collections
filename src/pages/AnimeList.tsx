@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Container from "../components/Container";
 import Header from "../components/Header";
 import Nav from "../components/Nav";
@@ -16,20 +16,21 @@ import {
   Country,
 } from "../components/Card";
 import Button from "../components/Button";
-import { FaStar } from "react-icons/fa";
-import { TbFidgetSpinner } from "react-icons/tb";
-import { gql, useQuery } from "@apollo/client";
 import Jumbotron from "../components/Jumbotron";
-import Spinner from "../components/Spinner";
 import useAnimes from "../hooks/useAnimes";
 import Pagination from "../components/Pagination";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { IndexContext } from "../context/store";
 
 export default function AnimeList() {
   const [homeLinkSelected, setHomeLinkSelected] = useState(true);
   const [collectionsLinkSelected, setCollectionsLinkSelected] = useState(false);
   const [page, setPage] = useState<number>(1);
-  const { error, animes, loading } = useAnimes(page, 10);
+
+  let { page_number } = useParams();
+  let navigate = useNavigate();
+  const { error, animes, loading } = useAnimes(Number(page_number), 10);
+  const { state, dispatch } = useContext(IndexContext);
 
   let MAIN_ELEMENT: JSX.Element = <div></div>;
 
@@ -69,8 +70,14 @@ export default function AnimeList() {
         <CardList>
           {animes.Page.media.map((anime) => (
             <Card key={anime.id}>
-              <Link to={`anime/${anime.id}`} className="link">
-                <CardImage src={anime.coverImage.large} loading="lazy" />
+              <Link to={`/anime/${anime.id}`} className="link">
+                <CardImage
+                  src={anime.coverImage.large}
+                  loading="lazy"
+                  height={230}
+                  width={317}
+                  alt={anime.title.english || ""}
+                />
                 <CardCover />
                 <CardBody>
                   <Country>
@@ -94,16 +101,23 @@ export default function AnimeList() {
         <section>
           <Pagination>
             {animes.Page.pageInfo.currentPage !== 1 && (
-              <Button onClick={() => setPage((prevPage) => prevPage - 1)}>
+              <Button
+                onClick={() =>
+                  navigate(`/anime/page/${Number(page_number!) - 1}`, {
+                    replace: true,
+                  })
+                }
+              >
                 Previous
               </Button>
             )}
             {animes.Page.pageInfo.hasNextPage && (
               <Button
-                onClick={() => {
-                  window.scrollTo(0, 594);
-                  setPage((prevPage) => prevPage + 1);
-                }}
+                onClick={() =>
+                  navigate(`/anime/page/${Number(page_number!) + 1}`, {
+                    replace: true,
+                  })
+                }
               >
                 Next
               </Button>
@@ -115,6 +129,7 @@ export default function AnimeList() {
   }
 
   // console.log({ error, animes, loading });
+  console.log(state);
 
   return (
     <Container>
@@ -143,7 +158,8 @@ export default function AnimeList() {
         <Jumbotron>
           <div className="tagline">
             <h1>
-              you can <span>explore</span> all anime on here
+              You can <span style={{ color: `var(--pink)` }}>explore</span> all
+              <span style={{ color: `var(--pink)` }}> anime</span> on here
             </h1>
           </div>
           <div className="tagline-description">

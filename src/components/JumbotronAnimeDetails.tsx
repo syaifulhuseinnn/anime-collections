@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import media from "../theme/media";
+import Button from "./Button";
 
 type JumbotronAnimeDetailsProps = {
   imgSrc: string;
@@ -62,6 +63,10 @@ const JumbotronHeader = styled.div`
 
       ${media.min.large} {
       }
+    }
+
+    .add-to-collection {
+      padding: 16px 0;
     }
   }
 
@@ -156,6 +161,9 @@ export default function JumbotronAnimeDetails(
               <span className="icon">Genres</span>
               <span>{genres.join(", ")}</span>
             </Stat>
+          </div>
+          <div className="add-to-collection">
+            <Button>Add to collection</Button>
           </div>
         </div>
         <div className="right">

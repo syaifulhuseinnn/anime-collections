@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 type ButtonProps = {
   bottomRight?: boolean;
   circle?: boolean;
+  fullSize?: boolean;
 };
 
 const Button = styled.button<ButtonProps>`
@@ -23,6 +24,7 @@ const Button = styled.button<ButtonProps>`
   display: ${(props) => (props.circle ? `block` : `inline-block`)};
   cursor: pointer;
   min-width: 100px;
+  ${(props) => props.fullSize && { width: "100%" }}
 
   ${(props) =>
     props.circle && {

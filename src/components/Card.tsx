@@ -116,10 +116,13 @@ const AvgScore = styled.div`
   gap: 5px;
 
   .icon {
-    background-color: #ffc600;
+    background-color: rgba(44, 51, 51);
     padding: 2px 7px;
-    color: var(--black);
+    color: var(--white);
     font-family: "Bebas Neue", cursive;
+    border-left: ${(props) =>
+      props.color ? `3px solid ${props.color}` : `3px solid #ffc600`};
+    font-size: 20px;
   }
 `;
 
