@@ -26,6 +26,11 @@ const Card = styled.div`
   background-color: #000000;
   cursor: pointer;
   position: relative;
+
+  .link {
+    text-decoration: none;
+    color: var(--white);
+  }
 `;
 
 const CardImage = styled.img`

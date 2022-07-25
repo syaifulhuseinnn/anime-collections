@@ -22,24 +22,25 @@ import { gql, useQuery } from "@apollo/client";
 import Jumbotron from "../components/Jumbotron";
 import Spinner from "../components/Spinner";
 import useAnimes from "../hooks/useAnimes";
+import Pagination from "../components/Pagination";
+import { Link } from "react-router-dom";
 
 export default function AnimeList() {
   const [homeLinkSelected, setHomeLinkSelected] = useState(true);
   const [collectionsLinkSelected, setCollectionsLinkSelected] = useState(false);
   const [page, setPage] = useState<number>(1);
-
   const { error, animes, loading } = useAnimes(page, 10);
 
-  console.log({ error, animes, loading });
+  let MAIN_ELEMENT: JSX.Element = <div></div>;
 
   if (loading) {
-    return (
+    MAIN_ELEMENT = (
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "100vh",
+          minHeight: "60vh",
         }}
       >
         <div>Loading...</div>
@@ -48,19 +49,73 @@ export default function AnimeList() {
   }
 
   if (error) {
-    return (
+    MAIN_ELEMENT = (
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "100vh",
+          minHeight: "50vh",
         }}
       >
         <div>Something went wrong!</div>
       </div>
     );
   }
+
+  if (!loading && animes) {
+    MAIN_ELEMENT = (
+      <>
+        <CardList>
+          {animes.Page.media.map((anime) => (
+            <Card key={anime.id}>
+              <Link to={`anime/${anime.id}`} className="link">
+                <CardImage src={anime.coverImage.large} loading="lazy" />
+                <CardCover />
+                <CardBody>
+                  <Country>
+                    {anime.countryOfOrigin}
+                    {`, `}
+                    <span className="year">{anime.seasonYear}</span>
+                  </Country>
+                  <CardTitle>{anime.title.english || "No Title"}</CardTitle>
+                  <AvgScore>
+                    <span className="icon">Average Score</span>
+                    <span>{anime.averageScore}</span>
+                  </AvgScore>
+                  <Genres>
+                    <small className="genres">{anime.genres.join(", ")}</small>
+                  </Genres>
+                </CardBody>
+              </Link>
+            </Card>
+          ))}
+        </CardList>
+        <section>
+          <Pagination>
+            {animes.Page.pageInfo.currentPage !== 1 && (
+              <Button onClick={() => setPage((prevPage) => prevPage - 1)}>
+                Previous
+              </Button>
+            )}
+            {animes.Page.pageInfo.hasNextPage && (
+              <Button
+                onClick={() => {
+                  window.scrollTo(0, 594);
+                  setPage((prevPage) => prevPage + 1);
+                }}
+              >
+                Next
+              </Button>
+            )}
+          </Pagination>
+        </section>
+      </>
+    );
+  }
+
+  // console.log({ error, animes, loading });
+
   return (
     <Container>
       <Header>
@@ -106,50 +161,7 @@ export default function AnimeList() {
           </div>
         </Jumbotron>
       </Header>
-      <main>
-        <CardList>
-          {animes.Page.media.map((anime: any) => (
-            <Card>
-              <CardImage src={anime.coverImage.large} />
-              <CardCover />
-              <CardBody>
-                <Country>
-                  {anime.countryOfOrigin}
-                  {`, `}
-                  <span className="year">{anime.seasonYear}</span>
-                </Country>
-                <CardTitle>{anime.title.english || "No Title"}</CardTitle>
-                <AvgScore>
-                  <span className="icon">Average Score</span>
-                  <span>{anime.averageScore}</span>
-                </AvgScore>
-                <Genres>
-                  <small className="genres">{anime.genres.join(", ")}</small>
-                </Genres>
-              </CardBody>
-            </Card>
-          ))}
-        </CardList>
-        <section>
-          <div
-            style={{
-              display: "flex",
-              gap: "16px",
-              justifyContent: "end",
-              padding: "16px 0 24px 0",
-            }}
-          >
-            {animes.Page.pageInfo.currentPage !== 1 && (
-              <Button>Previous</Button>
-            )}
-            {animes.Page.pageInfo.hasNextPage && (
-              <Button onClick={() => setPage((prevPage) => prevPage + 1)}>
-                Next
-              </Button>
-            )}
-          </div>
-        </section>
-      </main>
+      <main>{MAIN_ELEMENT}</main>
     </Container>
   );
 }

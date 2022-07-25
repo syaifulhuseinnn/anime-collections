@@ -1,4 +1,5 @@
 import { useQuery, gql } from "@apollo/client";
+import { AnimeListResponse } from "../types/AnimeListTypes";
 
 const GET_ANIME_LIST = gql`
   query GetAnimeList($page: Int!, $perPage: Int!) {
@@ -31,7 +32,7 @@ const GET_ANIME_LIST = gql`
   }
 `;
 
-const useAnimes = (page: number, perPage: number) => {
+const useAnimes = (page: number, perPage: number): AnimeListResponse => {
   const {
     error,
     data: animes,

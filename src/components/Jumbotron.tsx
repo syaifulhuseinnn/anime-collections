@@ -11,6 +11,10 @@ const Jumbotron = styled.div`
     gap: 20px;
   }
 
+  .title {
+    padding: 16px;
+  }
+
   .tagline {
     font-size: 32px;
 

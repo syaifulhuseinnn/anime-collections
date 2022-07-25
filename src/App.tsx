@@ -1,8 +1,10 @@
 import React from "react";
 import { Global, css } from "@emotion/react";
 import AnimeList from "./pages/AnimeList";
+import AnimeDetails from "./pages/AnimeDetails";
 import "@fontsource/questrial";
 import "@fontsource/bebas-neue";
+import { Routes, Route } from "react-router-dom";
 
 function GlobalStyles() {
   return (
@@ -48,7 +50,10 @@ function App() {
   return (
     <>
       <GlobalStyles />
-      <AnimeList />
+      <Routes>
+        <Route path="/" element={<AnimeList />} />
+        <Route path="/anime/:id" element={<AnimeDetails />} />
+      </Routes>
     </>
   );
 }
