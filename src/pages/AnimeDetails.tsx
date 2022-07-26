@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Container from "../components/Container";
-import Header from "../components/Header";
-import Nav from "../components/Nav";
-import NavLink from "../components/NavLink";
+import MainLayout from "../layouts/MainLayout";
+
 import { useParams } from "react-router-dom";
 import useGetAnime from "../hooks/useGetAnime";
 import JumbotronAnimeDetails from "../components/JumbotronAnimeDetails";
@@ -72,31 +71,8 @@ export default function AnimeDetails() {
   });
 
   return (
-    <Container>
-      <Header>
-        <h3>Animexplorer.com</h3>
-        <Nav>
-          <NavLink
-            onClick={() => {
-              setHomeLinkSelected(true);
-              setCollectionsLinkSelected(false);
-            }}
-            selected={homeLinkSelected}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            onClick={() => {
-              setCollectionsLinkSelected(true);
-              setHomeLinkSelected(false);
-            }}
-            selected={collectionsLinkSelected}
-          >
-            Collections
-          </NavLink>
-        </Nav>
-      </Header>
+    <MainLayout>
       <main>{MAIN_ELEMENT}</main>
-    </Container>
+    </MainLayout>
   );
 }

@@ -24,7 +24,7 @@ const CharactersContainer = styled.section`
 
     ${media.min.large} {
       grid-template-columns: repeat(6, 200px);
-      grid-gap: 0;
+      grid-column-gap: 0;
     }
   }
 

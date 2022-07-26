@@ -2,11 +2,10 @@ import React from "react";
 import { Global, css } from "@emotion/react";
 import AnimeList from "./pages/AnimeList";
 import AnimeDetails from "./pages/AnimeDetails";
-import Anime from "./pages/Anime";
+import CollectionList from "./pages/CollectionList";
 import "@fontsource/questrial";
 import "@fontsource/bebas-neue";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { IndexProvider } from "./context/store";
 
 function GlobalStyles() {
   return (
@@ -56,6 +55,7 @@ function App() {
         <Route path="/" element={<Navigate to="anime/page/1" />} />
         <Route path="anime/page/:page_number" element={<AnimeList />} />
         <Route path="anime/:id" element={<AnimeDetails />} />
+        <Route path="collections" element={<CollectionList />} />
       </Routes>
     </>
   );

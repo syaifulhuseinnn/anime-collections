@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
 import Container from "../components/Container";
-import Header from "../components/Header";
-import Nav from "../components/Nav";
-import NavLink from "../components/NavLink";
+import { Header, AppName } from "../components/Header";
+
 import {
   CardList,
   Card,
@@ -16,9 +15,10 @@ import {
   Country,
 } from "../components/Card";
 import Button from "../components/Button";
-import Jumbotron from "../components/Jumbotron";
+import Jumbotron from "../components/JumbotronDefault";
 import useAnimes from "../hooks/useAnimes";
 import Pagination from "../components/Pagination";
+import MainLayout from "../layouts/MainLayout";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { IndexContext } from "../context/store";
 
@@ -132,52 +132,8 @@ export default function AnimeList() {
   console.log(state);
 
   return (
-    <Container>
-      <Header>
-        <h3>Animexplorer.com</h3>
-        <Nav>
-          <NavLink
-            onClick={() => {
-              setHomeLinkSelected(true);
-              setCollectionsLinkSelected(false);
-            }}
-            selected={homeLinkSelected}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            onClick={() => {
-              setCollectionsLinkSelected(true);
-              setHomeLinkSelected(false);
-            }}
-            selected={collectionsLinkSelected}
-          >
-            Collections
-          </NavLink>
-        </Nav>
-        <Jumbotron>
-          <div className="tagline">
-            <h1>
-              You can <span style={{ color: `var(--pink)` }}>explore</span> all
-              <span style={{ color: `var(--pink)` }}> anime</span> on here
-            </h1>
-          </div>
-          <div className="tagline-description">
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia
-              dignissimos excepturi accusantium eum eaque, tempore natus omnis.
-              Voluptatem expedita veniam rem, molestias amet cupiditate quisquam
-              rerum sequi repellat maxime perferendis.
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Distinctio dolore ut, doloremque cum temporibus facere mollitia
-              beatae quidem et atque?
-            </p>
-          </div>
-        </Jumbotron>
-      </Header>
+    <MainLayout showJumbotronDefault>
       <main>{MAIN_ELEMENT}</main>
-    </Container>
+    </MainLayout>
   );
 }
