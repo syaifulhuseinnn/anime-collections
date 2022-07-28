@@ -26,6 +26,11 @@ const Card = styled.div`
   background-color: #000000;
   cursor: pointer;
   position: relative;
+
+  .link {
+    text-decoration: none;
+    color: var(--white);
+  }
 `;
 
 const CardImage = styled.img`
@@ -47,6 +52,7 @@ const CardBody = styled.div`
   bottom: 0;
   left: 0;
   justify-content: center;
+  width: 100%;
 
   ${media.min.large} {
   }
@@ -90,15 +96,6 @@ const CardCover = styled.div`
   left: 0;
   height: 150px;
   width: 100%;
-
-  ${media.min.large} {
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 1) 60%,
-      rgba(0, 0, 0, 0) 100%
-    );
-  }
 `;
 
 const Genres = styled.small`
@@ -120,11 +117,13 @@ const AvgScore = styled.div`
   gap: 5px;
 
   .icon {
-    background-color: #ffc600;
-    padding: 5px 8px;
-    font-weight: bold;
-    color: var(--black);
-    /* font-size: 12px; */
+    background-color: rgba(44, 51, 51);
+    padding: 2px 7px;
+    color: var(--white);
+    font-family: "Bebas Neue", cursive;
+    border-left: ${(props) =>
+      props.color ? `3px solid ${props.color}` : `3px solid #ffc600`};
+    font-size: 20px;
   }
 `;
 

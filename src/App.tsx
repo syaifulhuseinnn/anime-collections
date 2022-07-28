@@ -1,8 +1,13 @@
 import React from "react";
 import { Global, css } from "@emotion/react";
 import AnimeList from "./pages/AnimeList";
+import AnimeDetails from "./pages/AnimeDetails";
+import CollectionList from "./pages/CollectionList";
+import CollectionDetails from "./pages/CollectionDetails";
 import "@fontsource/questrial";
 import "@fontsource/bebas-neue";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { Provider } from "./context/store";
 
 function GlobalStyles() {
   return (
@@ -17,6 +22,12 @@ function GlobalStyles() {
           --pink: #f73d93;
           --light-pink: #f473b9;
           --white: #ffffff;
+          --yellow: #ffc600;
+          --blue: #0096ff;
+          --orange: #ef5b0c;
+          --purple: #a149fa;
+          --indigo: #5800ff;
+          --light-white: #d9d7f1;
         }
 
         body {
@@ -39,6 +50,32 @@ function GlobalStyles() {
         p {
           line-height: 1.25rem;
         }
+
+        input {
+          display: block;
+          width: 100%;
+          padding: 0.375rem 0.75rem;
+          font-size: 1rem;
+          font-weight: 400;
+          line-height: 1.5;
+          color: #212529;
+          background-color: #fff;
+          background-clip: padding-box;
+          border: 1px solid #ced4da;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          transition: border-color 0.15s ease-in-out,
+            box-shadow 0.15s ease-in-out;
+
+          &:focus {
+            color: #212529;
+            background-color: #fff;
+            border-color: var(--pink);
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem rgba(244, 115, 185, 0.35);
+          }
+        }
       `}
     />
   );
@@ -46,10 +83,19 @@ function GlobalStyles() {
 
 function App() {
   return (
-    <>
+    <Provider>
       <GlobalStyles />
-      <AnimeList />
-    </>
+      <Routes>
+        <Route path="/" element={<Navigate to="anime/page/1" />} />
+        <Route path="anime/page/:page_number" element={<AnimeList />} />
+        <Route path="anime/:id" element={<AnimeDetails />} />
+        <Route path="collections" element={<CollectionList />} />
+        <Route
+          path="collections/:collection_id"
+          element={<CollectionDetails />}
+        />
+      </Routes>
+    </Provider>
   );
 }
 

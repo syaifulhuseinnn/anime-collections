@@ -1,8 +1,9 @@
 import { useQuery, gql } from "@apollo/client";
+import { AnimeListResponse } from "../types/AnimeListTypes";
 
 const GET_ANIME_LIST = gql`
-  query {
-    Page(page: 1, perPage: 10) {
+  query GetAnimeList($page: Int!, $perPage: Int!) {
+    Page(page: $page, perPage: $perPage) {
       pageInfo {
         total
         perPage
@@ -31,8 +32,17 @@ const GET_ANIME_LIST = gql`
   }
 `;
 
-const useAnimes = () => {
-  const { error, data: animes, loading } = useQuery(GET_ANIME_LIST);
+const useAnimes = (page: number, perPage: number): AnimeListResponse => {
+  const {
+    error,
+    data: animes,
+    loading,
+  } = useQuery(GET_ANIME_LIST, {
+    variables: {
+      page,
+      perPage,
+    },
+  });
 
   return { error, animes, loading };
 };

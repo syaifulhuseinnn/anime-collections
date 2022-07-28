@@ -3,6 +3,10 @@ import styled from "@emotion/styled";
 type ButtonProps = {
   bottomRight?: boolean;
   circle?: boolean;
+  fullSize?: boolean;
+  danger?: boolean;
+  secondary?: boolean;
+  third?: boolean;
 };
 
 const Button = styled.button<ButtonProps>`
@@ -11,7 +15,6 @@ const Button = styled.button<ButtonProps>`
   border: 1px solid #f73d93;
   font-size: 1rem;
   color: #ffffff;
-  font-weight: 400;
   line-height: 1.5;
   border-radius: ${(props) => (props.circle ? `50%` : `0`)};
   text-align: center;
@@ -22,6 +25,29 @@ const Button = styled.button<ButtonProps>`
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   display: ${(props) => (props.circle ? `block` : `inline-block`)};
   cursor: pointer;
+  min-width: 100px;
+  font-family: "Questrial", sans-serif;
+  font-weight: 600;
+
+  ${(props) =>
+    props.danger && {
+      backgroundColor: "transparent",
+      borderColor: "#ABC9FF",
+    }}
+
+  ${(props) =>
+    props.secondary && {
+      backgroundColor: "transparent",
+      borderColor: "var(--light-white)",
+    }}
+
+	${(props) =>
+    props.third && {
+      backgroundColor: "var(--indigo)",
+      borderColor: "var(--indigo)",
+    }}
+
+  ${(props) => props.fullSize && { width: "100%" }}
 
   ${(props) =>
     props.circle && {
@@ -40,6 +66,18 @@ const Button = styled.button<ButtonProps>`
     /* color: var(--bs-btn-active-color); */
     background-color: #f10086;
     border-color: #f73d93;
+
+    ${(props) =>
+      props.secondary && {
+        backgroundColor: "#ABC9FF",
+        borderColor: "#ABC9FF",
+      }}
+
+    ${(props) =>
+      props.third && {
+        backgroundColor: "#4500c4",
+        borderColor: "#4500c4",
+      }}
   }
 
   &:focus {
@@ -48,12 +86,42 @@ const Button = styled.button<ButtonProps>`
     border-color: #f473b9;
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgba(244, 115, 185, 0.5);
+
+    ${(props) =>
+      props.secondary && {
+        backgroundColor: "#85aefa",
+        borderColor: "#85aefa",
+        boxShadow: "0 0 0 0.25rem rgba(133, 174, 250, 0.5)",
+      }}
+
+    ${(props) =>
+      props.third && {
+        backgroundColor: "#4500c4",
+        borderColor: "#4500c4",
+        boxShadow: "0 0 0 0.25rem rgba(69, 0, 196, 0.5)",
+      }}
   }
 
   &:active {
-    /* color: var(--bs-btn-active-color); */
     background-color: #f473b9;
     border-color: #f473b9;
+
+    ${(props) =>
+      props.secondary && {
+        backgroundColor: "#85aefa",
+        borderColor: "#85aefa",
+      }}
+
+    ${(props) =>
+      props.third && {
+        backgroundColor: "#4500c4",
+        borderColor: "#4500c4",
+      }}
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.65;
   }
 `;
 

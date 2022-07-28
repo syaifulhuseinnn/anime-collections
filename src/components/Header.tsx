@@ -8,14 +8,13 @@ const Header = styled.header`
   padding: 0 16px;
 
   ${media.min.large} {
-    /* flex-direction: row;
+    flex-direction: row;
     justify-content: space-between;
-    align-content: center; */
-
-    h3 {
-      font-size: 24px;
-      font-weight: bold;
-    }
   }
 `;
-export default Header;
+
+const AppName = styled.h1`
+  font-size: 30px;
+`;
+
+export { Header, AppName };
