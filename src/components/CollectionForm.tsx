@@ -18,7 +18,7 @@ const CollectionForm = styled.div`
     gap: 16px;
 
     ${media.min.large} {
-      min-height: 70px;
+      min-height: 75px;
     }
 
     .error-message {
@@ -39,6 +39,7 @@ const CollectionForm = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
+    min-height: 75px;
 
     .success-message-mobile {
       color: #3ccf4e;

@@ -23,6 +23,11 @@ function GlobalStyles() {
           --light-pink: #f473b9;
           --white: #ffffff;
           --yellow: #ffc600;
+          --blue: #0096ff;
+          --orange: #ef5b0c;
+          --purple: #a149fa;
+          --indigo: #5800ff;
+          --light-white: #d9d7f1;
         }
 
         body {

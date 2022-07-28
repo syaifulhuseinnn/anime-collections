@@ -100,6 +100,7 @@ export default function CollectionList() {
                       setShowRemoveCollectionModal(!showRemoveCollectionModal);
                       setCollectionId(collection.id);
                     }}
+                    third
                   >
                     Remove
                   </Button>
@@ -223,7 +224,7 @@ export default function CollectionList() {
         <ConfirmationForm>
           <div className="no">
             <Button
-              danger
+              secondary
               onClick={() =>
                 setShowRemoveCollectionModal(!showRemoveCollectionModal)
               }

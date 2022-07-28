@@ -1,6 +1,4 @@
-import React, { useState, useContext } from "react";
-import Container from "../components/Container";
-import { Header, AppName } from "../components/Header";
+import React from "react";
 
 import {
   CardList,
@@ -9,24 +7,21 @@ import {
   CardTitle,
   CardCover,
   CardBody,
-  CardDescription,
   Genres,
   AvgScore,
   Country,
 } from "../components/Card";
 import Button from "../components/Button";
-import Jumbotron from "../components/JumbotronDefault";
+
 import useAnimes from "../hooks/useAnimes";
 import Pagination from "../components/Pagination";
 import MainLayout from "../layouts/MainLayout";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { Context } from "../context/store";
 
 export default function AnimeList() {
   let { page_number } = useParams();
   let navigate = useNavigate();
   const { error, animes, loading } = useAnimes(Number(page_number), 10);
-  const { state, dispatch } = useContext(Context);
 
   let MAIN_ELEMENT: JSX.Element = <div></div>;
 

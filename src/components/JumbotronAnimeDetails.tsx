@@ -191,7 +191,7 @@ export default function JumbotronAnimeDetails(
               <span>{genres.join(", ")}</span>
             </Stat>
             <Stat color="#D9D7F1">
-              <span className="icon">Added to</span>
+              <span className="icon">Added to collection</span>
               <span className="collection-name">
                 {addedToCollections.length > 0
                   ? addedToCollections.map((i) => (

@@ -10,8 +10,6 @@ import {
   CardBody,
   CardTitle,
   Country,
-  AvgScore,
-  Genres,
 } from "../components/Card";
 import { Link } from "react-router-dom";
 import { Jumbotron } from "../components/JumbotronDefault";
@@ -33,42 +31,61 @@ export default function CollectionDetails() {
     dispatch({ type: "GET_COLLECTIONS" });
   }, []);
 
-  if (collections.length > 0) {
+  const collectionDetails = collections.find(
+    (collection) => collection.id === collection_id
+  );
+
+  if (collectionDetails?.data.length! > 0) {
     MAIN_ELEMENT = (
       <CardList>
-        {collections
-          .find((collection) => collection.id === collection_id)
-          ?.data.map((anime) => (
-            <Card key={anime.Media.id}>
-              <Link to={`/anime/${anime.Media.id}`} className="link">
-                <CardImage
-                  src={anime.Media.coverImage.extraLarge}
-                  loading="lazy"
-                  height={230}
-                  width={317}
-                  alt={anime.Media.title.english || ""}
-                />
-                <CardCover />
-              </Link>
-              <CardBody>
-                <Country>
-                  {anime.Media.countryOfOrigin}
-                  {`, `}
-                  <span className="year">{anime.Media.seasonYear}</span>
-                </Country>
-                <CardTitle>{anime.Media.title.english || "No Title"}</CardTitle>
-                <Button
-                  onClick={() => {
-                    setShowRemoveAnimeModal(!showRemoveAnimeModal);
-                    setAnimeId(anime.Media.id);
-                  }}
-                >
-                  Remove
-                </Button>
-              </CardBody>
-            </Card>
-          ))}
+        {collectionDetails?.data.map((anime) => (
+          <Card key={anime.Media.id}>
+            <Link to={`/anime/${anime.Media.id}`} className="link">
+              <CardImage
+                src={anime.Media.coverImage.extraLarge}
+                loading="lazy"
+                height={230}
+                width={317}
+                alt={anime.Media.title.english || ""}
+              />
+              <CardCover />
+            </Link>
+            <CardBody>
+              <Country>
+                {anime.Media.countryOfOrigin}
+                {`, `}
+                <span className="year">{anime.Media.seasonYear}</span>
+              </Country>
+              <CardTitle>{anime.Media.title.english || "No Title"}</CardTitle>
+              <Button
+                onClick={() => {
+                  setShowRemoveAnimeModal(!showRemoveAnimeModal);
+                  setAnimeId(anime.Media.id);
+                }}
+                third
+              >
+                Remove
+              </Button>
+            </CardBody>
+          </Card>
+        ))}
       </CardList>
+    );
+  } else {
+    MAIN_ELEMENT = (
+      <span
+        style={{
+          textAlign: "center",
+          padding: "16px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "50vh",
+          fontWeight: "600",
+        }}
+      >
+        No anime added yet
+      </span>
     );
   }
 
@@ -88,7 +105,7 @@ export default function CollectionDetails() {
 
       {/* REMOVE COLLECTION MODAL */}
       <Modal
-        modalTitle="REMOVE COLLECTION?"
+        modalTitle="REMOVE ANIME?"
         showModal={showRemoveAnimeModal}
         onClose={() => setShowRemoveAnimeModal(!showRemoveAnimeModal)}
       >

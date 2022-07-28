@@ -5,6 +5,8 @@ type ButtonProps = {
   circle?: boolean;
   fullSize?: boolean;
   danger?: boolean;
+  secondary?: boolean;
+  third?: boolean;
 };
 
 const Button = styled.button<ButtonProps>`
@@ -33,6 +35,18 @@ const Button = styled.button<ButtonProps>`
       borderColor: "#ABC9FF",
     }}
 
+  ${(props) =>
+    props.secondary && {
+      backgroundColor: "transparent",
+      borderColor: "var(--light-white)",
+    }}
+
+	${(props) =>
+    props.third && {
+      backgroundColor: "var(--indigo)",
+      borderColor: "var(--indigo)",
+    }}
+
   ${(props) => props.fullSize && { width: "100%" }}
 
   ${(props) =>
@@ -54,9 +68,15 @@ const Button = styled.button<ButtonProps>`
     border-color: #f73d93;
 
     ${(props) =>
-      props.danger && {
+      props.secondary && {
         backgroundColor: "#ABC9FF",
         borderColor: "#ABC9FF",
+      }}
+
+    ${(props) =>
+      props.third && {
+        backgroundColor: "#4500c4",
+        borderColor: "#4500c4",
       }}
   }
 
@@ -66,12 +86,37 @@ const Button = styled.button<ButtonProps>`
     border-color: #f473b9;
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgba(244, 115, 185, 0.5);
+
+    ${(props) =>
+      props.secondary && {
+        backgroundColor: "#85aefa",
+        borderColor: "#85aefa",
+        boxShadow: "0 0 0 0.25rem rgba(133, 174, 250, 0.5)",
+      }}
+
+    ${(props) =>
+      props.third && {
+        backgroundColor: "#4500c4",
+        borderColor: "#4500c4",
+        boxShadow: "0 0 0 0.25rem rgba(69, 0, 196, 0.5)",
+      }}
   }
 
   &:active {
-    /* color: var(--bs-btn-active-color); */
     background-color: #f473b9;
     border-color: #f473b9;
+
+    ${(props) =>
+      props.secondary && {
+        backgroundColor: "#85aefa",
+        borderColor: "#85aefa",
+      }}
+
+    ${(props) =>
+      props.third && {
+        backgroundColor: "#4500c4",
+        borderColor: "#4500c4",
+      }}
   }
 
   &:disabled {

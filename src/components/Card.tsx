@@ -52,6 +52,7 @@ const CardBody = styled.div`
   bottom: 0;
   left: 0;
   justify-content: center;
+  width: 100%;
 
   ${media.min.large} {
   }
