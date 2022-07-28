@@ -145,7 +145,6 @@ export default function JumbotronAnimeDetails(
     .map((item) => item.collection_name)
     .join(", ");
 
-  console.log(addedToCollections);
   return (
     <JumbotronContainer>
       <JumbotronHeader>
@@ -175,7 +174,9 @@ export default function JumbotronAnimeDetails(
             </Stat>
             <Stat color="#D9D7F1">
               <span className="icon">Added to</span>
-              <span>{addedToCollections}</span>
+              <span>
+                {addedToCollections ? addedToCollections : "Not added"}
+              </span>
             </Stat>
           </div>
           <div className="add-to-collection">
