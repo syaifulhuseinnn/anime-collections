@@ -3,6 +3,7 @@ import media from "../theme/media";
 import Button from "./Button";
 import { Context } from "../context/store";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 type JumbotronAnimeDetailsProps = {
   id: number;
@@ -122,6 +123,12 @@ const Stat = styled.div<StatProps>`
       props.color ? `3px solid ${props.color}` : `3px solid #ffc600`};
     font-size: 20px;
   }
+
+  .collection-name {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;
 
 export default function JumbotronAnimeDetails(
@@ -140,10 +147,17 @@ export default function JumbotronAnimeDetails(
     episodes,
     seasonYear,
   } = props;
+
   const addedToCollections = collections
     .filter((collection) => collection.data.find((i) => i.Media.id === id))
-    .map((item) => item.collection_name)
-    .join(", ");
+    .map((item) => {
+      return {
+        id: item.id,
+        collection_name: item.collection_name,
+      };
+    });
+
+  console.log(addedToCollections);
 
   return (
     <JumbotronContainer>
@@ -174,8 +188,18 @@ export default function JumbotronAnimeDetails(
             </Stat>
             <Stat color="#D9D7F1">
               <span className="icon">Added to</span>
-              <span>
-                {addedToCollections ? addedToCollections : "Not added"}
+              <span className="collection-name">
+                {addedToCollections.length > 0
+                  ? addedToCollections.map((i) => (
+                      <Link
+                        to={`/collections/${i.id}`}
+                        style={{ textDecoration: "none", color: "#ffffff" }}
+                        key={i.id}
+                      >
+                        {i.collection_name}, &nbsp;
+                      </Link>
+                    ))
+                  : "Not added"}
               </span>
             </Stat>
           </div>

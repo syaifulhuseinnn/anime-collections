@@ -15,6 +15,7 @@ const GET_ANIME_DETAILS = gql`
       bannerImage
       description
       genres
+      countryOfOrigin
       averageScore
       duration
       seasonYear

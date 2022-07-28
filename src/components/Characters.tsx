@@ -60,7 +60,7 @@ export default function Characters(props: CharactersProps) {
       <h1 className="heading">MAIN CHARACTERS</h1>
       <div className="characters">
         {nodes.map((character) => (
-          <div className="character">
+          <div className="character" key={character.id}>
             <img
               src={character.image.medium}
               alt={character.name.full}

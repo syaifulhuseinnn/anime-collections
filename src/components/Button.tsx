@@ -4,6 +4,7 @@ type ButtonProps = {
   bottomRight?: boolean;
   circle?: boolean;
   fullSize?: boolean;
+  danger?: boolean;
 };
 
 const Button = styled.button<ButtonProps>`
@@ -23,6 +24,13 @@ const Button = styled.button<ButtonProps>`
   display: ${(props) => (props.circle ? `block` : `inline-block`)};
   cursor: pointer;
   min-width: 100px;
+
+  ${(props) =>
+    props.danger && {
+      backgroundColor: "transparent",
+      borderColor: "#ABC9FF",
+    }}
+
   ${(props) => props.fullSize && { width: "100%" }}
 
   ${(props) =>
@@ -42,6 +50,12 @@ const Button = styled.button<ButtonProps>`
     /* color: var(--bs-btn-active-color); */
     background-color: #f10086;
     border-color: #f73d93;
+
+    ${(props) =>
+      props.danger && {
+        backgroundColor: "#ABC9FF",
+        borderColor: "#ABC9FF",
+      }}
   }
 
   &:focus {

@@ -8,7 +8,8 @@ type Props = {
 
 type InitialStateTypes = {
   modals: {
-    addToCollection: boolean;
+    add_to_collection: boolean;
+    remove_collection_modal: boolean;
   };
   collections: Collections[];
 };
@@ -16,6 +17,8 @@ type InitialStateTypes = {
 type ACTIONTYPE =
   | { type: "HIDE_MODAL_ADD_TO_COLLECTION" }
   | { type: "SHOW_MODAL_ADD_TO_COLLECTION" }
+  | { type: "HIDE_REMOVE_COLLECTION_MODAL" }
+  | { type: "SHOW_REMOVE_COLLECTION_MODAL" }
   | {
       type: "CREATE_A_NEW_COLLECTION";
       payload: {
@@ -28,11 +31,13 @@ type ACTIONTYPE =
   | {
       type: "GET_COLLECTIONS";
     }
-  | { type: "ADD_ANIME_TO_COLLECTION"; payload: { id: string; data: Data } };
+  | { type: "ADD_ANIME_TO_COLLECTION"; payload: { id: string; data: Data } }
+  | { type: "REMOVE_COLLECTION"; payload: { collection_id: string } };
 
 export const initialState: InitialStateTypes = {
   modals: {
-    addToCollection: false,
+    add_to_collection: false,
+    remove_collection_modal: false,
   },
   collections: [],
 };
@@ -40,25 +45,38 @@ export const initialState: InitialStateTypes = {
 const reducer = (state: typeof initialState, action: ACTIONTYPE) => {
   switch (action.type) {
     case "SHOW_MODAL_ADD_TO_COLLECTION":
-      console.warn("TERPANGGIL 1");
       return {
         ...state,
         modals: {
-          addToCollection: true,
+          add_to_collection: true,
+          remove_collection_modal: state.modals.remove_collection_modal,
         },
       };
     case "HIDE_MODAL_ADD_TO_COLLECTION":
-      console.warn("TERPANGGIL 2");
-
       return {
         ...state,
         modals: {
-          addToCollection: false,
+          add_to_collection: false,
+          remove_collection_modal: state.modals.remove_collection_modal,
+        },
+      };
+    case "SHOW_REMOVE_COLLECTION_MODAL":
+      return {
+        ...state,
+        modals: {
+          add_to_collection: state.modals.add_to_collection,
+          remove_collection_modal: true,
+        },
+      };
+    case "HIDE_REMOVE_COLLECTION_MODAL":
+      return {
+        ...state,
+        modals: {
+          add_to_collection: state.modals.add_to_collection,
+          remove_collection_modal: false,
         },
       };
     case "CREATE_A_NEW_COLLECTION":
-      console.warn("TERPANGGIL 3");
-
       const newCollectionsState = [...state.collections, action.payload];
       localStorage.setItem("collections", JSON.stringify(newCollectionsState));
       return {
@@ -74,37 +92,40 @@ const reducer = (state: typeof initialState, action: ACTIONTYPE) => {
         ],
       };
     case "GET_COLLECTIONS":
-      console.warn("TERPANGGIL 4");
-
       let collections = localStorage.getItem("collections");
       if (collections) {
-        console.log("ada");
         return {
           ...state,
           collections: JSON.parse(collections),
         };
       } else {
-        console.log("gkada");
-
         return state;
       }
     case "ADD_ANIME_TO_COLLECTION":
-      console.warn("TERPANGGIL 5");
-
-      const indexCollection = state.collections.findIndex(
+      const addIndex = state.collections.findIndex(
         (collection) => collection.id === action.payload.id
       );
-      // console.log(action.payload);
       let updatedCollections = [...state.collections];
-      updatedCollections[indexCollection].data.push(action.payload.data);
+      updatedCollections[addIndex].data.push(action.payload.data);
       localStorage.setItem("collections", JSON.stringify(updatedCollections));
 
       return {
         ...state,
         collections: updatedCollections,
       };
+    case "REMOVE_COLLECTION":
+      const deleteIndex = state.collections.findIndex(
+        (collection) => collection.id === action.payload.collection_id
+      );
+      let deletedCollection = [...state.collections];
+      deletedCollection.splice(deleteIndex, 1);
+      localStorage.setItem("collections", JSON.stringify(deletedCollection));
+
+      return {
+        ...state,
+        collections: deletedCollection,
+      };
     default:
-      console.warn("TERPANGGIL 6");
       return state;
   }
 };

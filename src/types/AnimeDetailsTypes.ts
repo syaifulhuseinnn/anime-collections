@@ -20,6 +20,7 @@ export interface Media {
   seasonYear: number;
   episodes: number;
   characters: Characters;
+  countryOfOrigin: string;
   __typename: string;
 }
 

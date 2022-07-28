@@ -10,6 +10,8 @@ type ModalBackdropProps = {
 type ModalProps = {
   modalTitle: string;
   children: React.ReactNode;
+  showModal: boolean;
+  onClose: () => void;
 };
 
 const ModalBackdrop = styled.div<ModalBackdropProps>`
@@ -80,16 +82,12 @@ const ModalBody = styled.div`
 
 export default function Modal(props: ModalProps) {
   const { state, dispatch } = useContext(Context);
-  const { addToCollection } = state.modals;
-  const { modalTitle, children } = props;
+  const { modalTitle, children, showModal, onClose } = props;
   return (
-    <ModalBackdrop showModal={addToCollection}>
+    <ModalBackdrop showModal={showModal}>
       <ModalContent>
         <ModalHeader>
-          <span
-            className="close"
-            onClick={() => dispatch({ type: "HIDE_MODAL_ADD_TO_COLLECTION" })}
-          >
+          <span className="close" onClick={() => onClose()}>
             &times;
           </span>
           <h1 className="heading">{modalTitle}</h1>

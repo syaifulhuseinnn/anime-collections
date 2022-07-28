@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import styled from "@emotion/styled";
 import MainLayout from "../layouts/MainLayout";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import { useParams } from "react-router-dom";
 import useGetAnime from "../hooks/useGetAnime";
 import JumbotronAnimeDetails from "../components/JumbotronAnimeDetails";
@@ -9,10 +9,19 @@ import Characters from "../components/Characters";
 import Modal from "../components/Modal";
 import CollectionForm from "../components/CollectionForm";
 import Button from "../components/Button";
-import Collections from "../components/Collections";
+import Collections, {
+  CollectionBody,
+  CollectionCoverImage,
+  CollectionItem,
+  CollectionItemHeader,
+  CollectionTitle,
+  AddedMark,
+} from "../components/Collections";
 import { nanoid } from "nanoid";
 import { Context } from "../context/store";
 import * as Yup from "yup";
+import { BsFillPatchCheckFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const collectionNameSchema = Yup.object().shape({
   collection_name: Yup.string()
@@ -28,7 +37,10 @@ export default function AnimeDetails() {
   const { id } = useParams();
   const { state, dispatch } = useContext(Context);
   const { error, anime, loading } = useGetAnime(Number(id));
+  const { add_to_collection } = state.modals;
+  const { collections } = state;
 
+  let navigate = useNavigate();
   let MAIN_ELEMENT: JSX.Element = <div></div>;
 
   useEffect(() => {
@@ -101,13 +113,17 @@ export default function AnimeDetails() {
   //   anime,
   //   loading,
   // });
-  console.log(state.collections.length);
+  console.log(collections.length);
 
   return (
     <>
       <MainLayout>
         <main>{MAIN_ELEMENT}</main>
-        <Modal modalTitle="ADD ANIME TO COLLECTIONS">
+        <Modal
+          modalTitle="ADD ANIME TO COLLECTIONS"
+          showModal={add_to_collection}
+          onClose={() => dispatch({ type: "HIDE_MODAL_ADD_TO_COLLECTION" })}
+        >
           <Formik
             initialValues={{ id: "", collection_name: "" }}
             validationSchema={collectionNameSchema}
@@ -166,31 +182,79 @@ export default function AnimeDetails() {
                         </strong>
                       ) : null}
                       {isSubmitting && (
-                        <strong className="success-message">
+                        <strong className="success-message-desktop">
                           New collection created!
                         </strong>
                       )}
                     </div>
-                    <div>
+                    <div className="button">
                       <Button
                         type="submit"
                         disabled={errors.collection_name ? true : false}
+                        fullSize
                       >
                         Create
                       </Button>
+                      {isSubmitting && (
+                        <strong className="success-message-mobile">
+                          New collection created!
+                        </strong>
+                      )}
                     </div>
                   </CollectionForm>
                 </Form>
               );
             }}
           </Formik>
-          {state.collections.length > 0 ? (
+          {collections.length > 0 ? (
             <Collections
               gridAtLarge={2}
               gridAtExtraLarge={2}
               gridAtExtraExtraLarge={2}
-              anime={anime}
-            />
+            >
+              {collections.map((collection) => (
+                <CollectionItem key={collection.id}>
+                  <CollectionItemHeader
+                    onClick={() => navigate(`/collections/${collection.id}`)}
+                  >
+                    <CollectionCoverImage
+                      src={
+                        collection.data.length > 0
+                          ? collection.data[0].Media.bannerImage ||
+                            collection.cover_image
+                          : collection.cover_image
+                      }
+                      height={318}
+                      width={118}
+                    />
+                  </CollectionItemHeader>
+                  <CollectionBody>
+                    <CollectionTitle>
+                      {collection.collection_name}
+                    </CollectionTitle>
+                    {collection.data.find(
+                      (item) => item.Media.id === anime?.Media.id
+                    ) ? (
+                      <AddedMark>
+                        <BsFillPatchCheckFill size="1.35em" color="0096FF" />
+                        <span>Added</span>
+                      </AddedMark>
+                    ) : (
+                      <Button
+                        onClick={() =>
+                          dispatch({
+                            type: "ADD_ANIME_TO_COLLECTION",
+                            payload: { id: collection.id, data: anime! },
+                          })
+                        }
+                      >
+                        Add
+                      </Button>
+                    )}
+                  </CollectionBody>
+                </CollectionItem>
+              ))}
+            </Collections>
           ) : (
             <strong
               style={{
@@ -202,7 +266,7 @@ export default function AnimeDetails() {
                 minHeight: "50vh",
               }}
             >
-              Collection is emptyssss
+              Collection is empty
             </strong>
           )}
         </Modal>

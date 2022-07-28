@@ -3,6 +3,7 @@ import { Global, css } from "@emotion/react";
 import AnimeList from "./pages/AnimeList";
 import AnimeDetails from "./pages/AnimeDetails";
 import CollectionList from "./pages/CollectionList";
+import CollectionDetails from "./pages/CollectionDetails";
 import "@fontsource/questrial";
 import "@fontsource/bebas-neue";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -21,6 +22,7 @@ function GlobalStyles() {
           --pink: #f73d93;
           --light-pink: #f473b9;
           --white: #ffffff;
+          --yellow: #ffc600;
         }
 
         body {
@@ -83,6 +85,10 @@ function App() {
         <Route path="anime/page/:page_number" element={<AnimeList />} />
         <Route path="anime/:id" element={<AnimeDetails />} />
         <Route path="collections" element={<CollectionList />} />
+        <Route
+          path="collections/:collection_id"
+          element={<CollectionDetails />}
+        />
       </Routes>
     </Provider>
   );

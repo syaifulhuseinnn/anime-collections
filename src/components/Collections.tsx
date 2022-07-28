@@ -4,8 +4,6 @@ import media from "../theme/media";
 import Button from "../components/Button";
 import { Context } from "../context/store";
 import { Data } from "../types/AnimeDetailsTypes";
-import { BsFillPatchCheckFill } from "react-icons/bs";
-import { useLocation } from "react-router-dom";
 
 type CollectionsContainerProps = {
   gridAtSmall?: number;
@@ -21,13 +19,13 @@ type CollectionsProps = {
   gridAtLarge?: number;
   gridAtExtraLarge?: number;
   gridAtExtraExtraLarge?: number;
-  anime?: Data;
+  children: React.ReactNode;
 };
 
 const CollectionsContainer = styled.section<CollectionsContainerProps>`
   display: grid;
   grid-gap: 16px;
-  padding: 16px;
+  padding: 16px 0;
   grid-template-columns:
     repeat(1, 1fr)
     ${media.min.small} {
@@ -73,7 +71,8 @@ const CollectionItem = styled.article`
 `;
 
 const CollectionItemHeader = styled.div`
-  min-height: 119px;
+  min-height: 130px;
+  cursor: pointer;
 `;
 
 const CollectionCoverImage = styled.img`
@@ -106,88 +105,36 @@ const AddedMark = styled.div`
   font-weight: 600;
 `;
 
+export {
+  CollectionItem,
+  CollectionItemHeader,
+  CollectionCoverImage,
+  CollectionBody,
+  CollectionTitle,
+  AddedMark,
+};
+
 export default function Collections(props: CollectionsProps) {
-  const { state, dispatch } = useContext(Context);
-  let location = useLocation();
-  const { collections } = state;
   const {
     gridAtSmall,
     gridAtMedium,
     gridAtLarge,
     gridAtExtraLarge,
     gridAtExtraExtraLarge,
-    anime,
+    children,
   } = props;
 
-  useEffect(() => {
-    dispatch({ type: "GET_COLLECTIONS" });
-  }, []);
-  console.log(location);
   return (
-    <CollectionsContainer
-      gridAtSmall={gridAtSmall}
-      gridAtMedium={gridAtMedium}
-      gridAtLarge={gridAtLarge}
-      gridAtExtraLarge={gridAtExtraLarge}
-      gridAtExtraExtraLarge={gridAtExtraExtraLarge}
-    >
-      {collections.length > 0 &&
-        collections.map((collection) => (
-          <CollectionItem key={collection.id}>
-            <CollectionItemHeader>
-              <CollectionCoverImage
-                src={
-                  collection.data.length > 0
-                    ? collection.data[0].Media.bannerImage ||
-                      collection.cover_image
-                    : collection.cover_image
-                }
-                height={318}
-                width={118}
-              />
-            </CollectionItemHeader>
-            <CollectionBody>
-              <CollectionTitle>{collection.collection_name}</CollectionTitle>
-              {collection.data.find(
-                (item) => item.Media.id === anime?.Media.id
-              ) ? (
-                <AddedMark>
-                  <BsFillPatchCheckFill size="1.35em" color="3CCF4E" />
-                  <span>Added</span>
-                </AddedMark>
-              ) : (
-                location.pathname !== "/collections" && (
-                  <Button
-                    onClick={() =>
-                      dispatch({
-                        type: "ADD_ANIME_TO_COLLECTION",
-                        payload: { id: collection.id, data: anime! },
-                      })
-                    }
-                  >
-                    Add
-                  </Button>
-                )
-              )}
-            </CollectionBody>
-          </CollectionItem>
-        ))}
-
-      {/* Render if collections is empty */}
-      {collections.length === 0 && (
-        <span
-          style={{
-            textAlign: "center",
-            padding: "16px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "50vh",
-          }}
-        >
-          Collection is empty
-        </span>
-      )}
-    </CollectionsContainer>
+    <>
+      <CollectionsContainer
+        gridAtSmall={gridAtSmall}
+        gridAtMedium={gridAtMedium}
+        gridAtLarge={gridAtLarge}
+        gridAtExtraLarge={gridAtExtraLarge}
+        gridAtExtraExtraLarge={gridAtExtraExtraLarge}
+      >
+        {children}
+      </CollectionsContainer>
+    </>
   );
 }
