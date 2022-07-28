@@ -30,8 +30,11 @@ const collectionNameSchema = Yup.object().shape({
 
 export default function CollectionList() {
   const [collectionId, setCollectionId] = useState<string>("");
+  const [showAddNewCollectionModal, setShowAddNewCollectionModal] =
+    useState<boolean>(false);
+  const [showRemoveCollectionModal, setShowRemoveCollectionModal] =
+    useState<boolean>(false);
   const { state, dispatch } = useContext(Context);
-  const { remove_collection_modal, add_to_collection } = state.modals;
   const { collections } = state;
 
   let navigate = useNavigate();
@@ -63,7 +66,9 @@ export default function CollectionList() {
       <main style={{ padding: "0 16px" }}>
         <div style={{ textAlign: "right" }}>
           <Button
-            onClick={() => dispatch({ type: "SHOW_MODAL_ADD_TO_COLLECTION" })}
+            onClick={() =>
+              setShowAddNewCollectionModal(!showAddNewCollectionModal)
+            }
           >
             Add new collection
           </Button>
@@ -92,7 +97,7 @@ export default function CollectionList() {
                   </CollectionTitle>
                   <Button
                     onClick={() => {
-                      dispatch({ type: "SHOW_REMOVE_COLLECTION_MODAL" });
+                      setShowRemoveCollectionModal(!showRemoveCollectionModal);
                       setCollectionId(collection.id);
                     }}
                   >
@@ -119,11 +124,12 @@ export default function CollectionList() {
           </span>
         )}
       </main>
-      {/* ADD NEW COLLECTION */}
+
+      {/* ADD NEW COLLECTION MODAL */}
       <Modal
         modalTitle="ADD ANIME TO COLLECTIONS"
-        showModal={add_to_collection}
-        onClose={() => dispatch({ type: "HIDE_MODAL_ADD_TO_COLLECTION" })}
+        showModal={showAddNewCollectionModal}
+        onClose={() => setShowAddNewCollectionModal(!showAddNewCollectionModal)}
       >
         <Formik
           initialValues={{ id: "", collection_name: "" }}
@@ -144,7 +150,7 @@ export default function CollectionList() {
                 );
               } else {
                 handleCreateNewCollection(id, collection_name);
-                console.log(state.collections);
+
                 resetForm({
                   values: { id: "", collection_name: "" },
                   isSubmitting: true,
@@ -155,7 +161,7 @@ export default function CollectionList() {
               }
             } else {
               handleCreateNewCollection(id, collection_name);
-              console.log(state.collections);
+
               resetForm({
                 values: { id: "", collection_name: "" },
                 isSubmitting: true,
@@ -208,17 +214,19 @@ export default function CollectionList() {
         </Formik>
       </Modal>
 
-      {/* REMOVE COLLECTION */}
+      {/* REMOVE COLLECTION MODAL */}
       <Modal
         modalTitle="REMOVE COLLECTION?"
-        showModal={remove_collection_modal}
-        onClose={() => dispatch({ type: "HIDE_REMOVE_COLLECTION_MODAL" })}
+        showModal={showRemoveCollectionModal}
+        onClose={() => setShowRemoveCollectionModal(!showRemoveCollectionModal)}
       >
         <ConfirmationForm>
           <div className="no">
             <Button
               danger
-              onClick={() => dispatch({ type: "HIDE_REMOVE_COLLECTION_MODAL" })}
+              onClick={() =>
+                setShowRemoveCollectionModal(!showRemoveCollectionModal)
+              }
             >
               No
             </Button>
@@ -230,7 +238,7 @@ export default function CollectionList() {
                   type: "REMOVE_COLLECTION",
                   payload: { collection_id: collectionId },
                 });
-                dispatch({ type: "HIDE_REMOVE_COLLECTION_MODAL" });
+                setShowRemoveCollectionModal(!showRemoveCollectionModal);
               }}
             >
               Yes

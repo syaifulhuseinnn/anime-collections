@@ -24,6 +24,8 @@ const Button = styled.button<ButtonProps>`
   display: ${(props) => (props.circle ? `block` : `inline-block`)};
   cursor: pointer;
   min-width: 100px;
+  font-family: "Questrial", sans-serif;
+  font-weight: 600;
 
   ${(props) =>
     props.danger && {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { useParams } from "react-router-dom";
 import { Context } from "../context/store";
@@ -15,15 +15,25 @@ import {
 } from "../components/Card";
 import { Link } from "react-router-dom";
 import { Jumbotron } from "../components/JumbotronDefault";
+import Button from "../components/Button";
+import Modal from "../components/Modal";
+import ConfirmationForm from "../components/ConfirmationForm";
 
 export default function CollectionDetails() {
+  const [showRemoveAnimeModal, setShowRemoveAnimeModal] =
+    useState<boolean>(false);
+  const [animeId, setAnimeId] = useState<number | undefined>(undefined);
   const { collection_id } = useParams();
   const { state, dispatch } = useContext(Context);
   const { collections } = state;
 
   let MAIN_ELEMENT: JSX.Element = <div></div>;
 
-  if (collections) {
+  useEffect(() => {
+    dispatch({ type: "GET_COLLECTIONS" });
+  }, []);
+
+  if (collections.length > 0) {
     MAIN_ELEMENT = (
       <CardList>
         {collections
@@ -39,26 +49,23 @@ export default function CollectionDetails() {
                   alt={anime.Media.title.english || ""}
                 />
                 <CardCover />
-                <CardBody>
-                  <Country>
-                    {anime.Media.countryOfOrigin}
-                    {`, `}
-                    <span className="year">{anime.Media.seasonYear}</span>
-                  </Country>
-                  <CardTitle>
-                    {anime.Media.title.english || "No Title"}
-                  </CardTitle>
-                  <AvgScore>
-                    <span className="icon">Average Score</span>
-                    <span>{anime.Media.averageScore}</span>
-                  </AvgScore>
-                  <Genres>
-                    <small className="genres">
-                      {anime.Media.genres.join(", ")}
-                    </small>
-                  </Genres>
-                </CardBody>
               </Link>
+              <CardBody>
+                <Country>
+                  {anime.Media.countryOfOrigin}
+                  {`, `}
+                  <span className="year">{anime.Media.seasonYear}</span>
+                </Country>
+                <CardTitle>{anime.Media.title.english || "No Title"}</CardTitle>
+                <Button
+                  onClick={() => {
+                    setShowRemoveAnimeModal(!showRemoveAnimeModal);
+                    setAnimeId(anime.Media.id);
+                  }}
+                >
+                  Remove
+                </Button>
+              </CardBody>
             </Card>
           ))}
       </CardList>
@@ -78,6 +85,40 @@ export default function CollectionDetails() {
         </div>
       </Jumbotron>
       <main>{MAIN_ELEMENT}</main>
+
+      {/* REMOVE COLLECTION MODAL */}
+      <Modal
+        modalTitle="REMOVE COLLECTION?"
+        showModal={showRemoveAnimeModal}
+        onClose={() => setShowRemoveAnimeModal(!showRemoveAnimeModal)}
+      >
+        <ConfirmationForm>
+          <div className="no">
+            <Button
+              danger
+              onClick={() => setShowRemoveAnimeModal(!showRemoveAnimeModal)}
+            >
+              No
+            </Button>
+          </div>
+          <div className="yes">
+            <Button
+              onClick={() => {
+                dispatch({
+                  type: "REMOVE_ANIME_FROM_COLLECTION",
+                  payload: {
+                    anime_id: animeId!,
+                    collection_id: collection_id!,
+                  },
+                });
+                setShowRemoveAnimeModal(!showRemoveAnimeModal);
+              }}
+            >
+              Yes
+            </Button>
+          </div>
+        </ConfirmationForm>
+      </Modal>
     </MainLayout>
   );
 }

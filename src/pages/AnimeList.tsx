@@ -124,9 +124,6 @@ export default function AnimeList() {
     );
   }
 
-  // console.log({ error, animes, loading });
-  // console.log(state.modals.addToCollection);
-
   return (
     <MainLayout showJumbotronDefault>
       <main>{MAIN_ELEMENT}</main>

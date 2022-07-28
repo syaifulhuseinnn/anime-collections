@@ -15,6 +15,10 @@ type JumbotronAnimeDetailsProps = {
   genres: string[];
   seasonYear: number;
   episodes: number;
+  showAddAnimeToCollectionModal: boolean;
+  setShowAddAnimeToCollectionModal: (
+    showAddAnimeToCollectionModal: boolean
+  ) => void;
 };
 
 type StatProps = {
@@ -146,6 +150,8 @@ export default function JumbotronAnimeDetails(
     genres,
     episodes,
     seasonYear,
+    setShowAddAnimeToCollectionModal,
+    showAddAnimeToCollectionModal,
   } = props;
 
   const addedToCollections = collections
@@ -156,8 +162,6 @@ export default function JumbotronAnimeDetails(
         collection_name: item.collection_name,
       };
     });
-
-  console.log(addedToCollections);
 
   return (
     <JumbotronContainer>
@@ -205,7 +209,9 @@ export default function JumbotronAnimeDetails(
           </div>
           <div className="add-to-collection">
             <Button
-              onClick={() => dispatch({ type: "SHOW_MODAL_ADD_TO_COLLECTION" })}
+              onClick={() =>
+                setShowAddAnimeToCollectionModal(!showAddAnimeToCollectionModal)
+              }
             >
               Add to collection
             </Button>

@@ -1,24 +1,16 @@
 import React, { useReducer, Dispatch } from "react";
 import { Collections } from "../types/CollectionTypes";
-import { Media, Data } from "../types/AnimeDetailsTypes";
+import { Data } from "../types/AnimeDetailsTypes";
 
 type Props = {
   children?: React.ReactNode;
 };
 
 type InitialStateTypes = {
-  modals: {
-    add_to_collection: boolean;
-    remove_collection_modal: boolean;
-  };
   collections: Collections[];
 };
 
 type ACTIONTYPE =
-  | { type: "HIDE_MODAL_ADD_TO_COLLECTION" }
-  | { type: "SHOW_MODAL_ADD_TO_COLLECTION" }
-  | { type: "HIDE_REMOVE_COLLECTION_MODAL" }
-  | { type: "SHOW_REMOVE_COLLECTION_MODAL" }
   | {
       type: "CREATE_A_NEW_COLLECTION";
       payload: {
@@ -32,50 +24,18 @@ type ACTIONTYPE =
       type: "GET_COLLECTIONS";
     }
   | { type: "ADD_ANIME_TO_COLLECTION"; payload: { id: string; data: Data } }
-  | { type: "REMOVE_COLLECTION"; payload: { collection_id: string } };
+  | { type: "REMOVE_COLLECTION"; payload: { collection_id: string } }
+  | {
+      type: "REMOVE_ANIME_FROM_COLLECTION";
+      payload: { collection_id: string; anime_id: number };
+    };
 
 export const initialState: InitialStateTypes = {
-  modals: {
-    add_to_collection: false,
-    remove_collection_modal: false,
-  },
   collections: [],
 };
 
 const reducer = (state: typeof initialState, action: ACTIONTYPE) => {
   switch (action.type) {
-    case "SHOW_MODAL_ADD_TO_COLLECTION":
-      return {
-        ...state,
-        modals: {
-          add_to_collection: true,
-          remove_collection_modal: state.modals.remove_collection_modal,
-        },
-      };
-    case "HIDE_MODAL_ADD_TO_COLLECTION":
-      return {
-        ...state,
-        modals: {
-          add_to_collection: false,
-          remove_collection_modal: state.modals.remove_collection_modal,
-        },
-      };
-    case "SHOW_REMOVE_COLLECTION_MODAL":
-      return {
-        ...state,
-        modals: {
-          add_to_collection: state.modals.add_to_collection,
-          remove_collection_modal: true,
-        },
-      };
-    case "HIDE_REMOVE_COLLECTION_MODAL":
-      return {
-        ...state,
-        modals: {
-          add_to_collection: state.modals.add_to_collection,
-          remove_collection_modal: false,
-        },
-      };
     case "CREATE_A_NEW_COLLECTION":
       const newCollectionsState = [...state.collections, action.payload];
       localStorage.setItem("collections", JSON.stringify(newCollectionsState));
@@ -124,6 +84,21 @@ const reducer = (state: typeof initialState, action: ACTIONTYPE) => {
       return {
         ...state,
         collections: deletedCollection,
+      };
+    case "REMOVE_ANIME_FROM_COLLECTION":
+      let removedAnime = [...state.collections];
+      const findIndexCollection = state.collections.findIndex(
+        (collection) => collection.id === action.payload.collection_id
+      );
+      const findAnimeIndex = removedAnime[findIndexCollection].data.findIndex(
+        (anime) => anime.Media.id === action.payload.anime_id
+      );
+      removedAnime[findIndexCollection].data.splice(findAnimeIndex, 1);
+      localStorage.setItem("collections", JSON.stringify(removedAnime));
+
+      return {
+        ...state,
+        collections: removedAnime,
       };
     default:
       return state;

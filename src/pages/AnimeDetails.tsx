@@ -1,5 +1,4 @@
-import React, { useEffect, useContext } from "react";
-import styled from "@emotion/styled";
+import React, { useEffect, useContext, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { Formik, Form, Field } from "formik";
 import { useParams } from "react-router-dom";
@@ -34,10 +33,11 @@ const collectionNameSchema = Yup.object().shape({
 });
 
 export default function AnimeDetails() {
+  const [showAddAnimeToCollectionModal, setShowAddAnimeToCollectionModal] =
+    useState(false);
   const { id } = useParams();
   const { state, dispatch } = useContext(Context);
   const { error, anime, loading } = useGetAnime(Number(id));
-  const { add_to_collection } = state.modals;
   const { collections } = state;
 
   let navigate = useNavigate();
@@ -102,18 +102,13 @@ export default function AnimeDetails() {
           genres={anime.Media.genres}
           episodes={anime.Media.episodes}
           seasonYear={anime.Media.seasonYear}
+          showAddAnimeToCollectionModal={showAddAnimeToCollectionModal}
+          setShowAddAnimeToCollectionModal={setShowAddAnimeToCollectionModal}
         />
         <Characters characters={anime.Media.characters} />
       </>
     );
   }
-
-  // console.log({
-  //   error,
-  //   anime,
-  //   loading,
-  // });
-  console.log(collections.length);
 
   return (
     <>
@@ -121,8 +116,10 @@ export default function AnimeDetails() {
         <main>{MAIN_ELEMENT}</main>
         <Modal
           modalTitle="ADD ANIME TO COLLECTIONS"
-          showModal={add_to_collection}
-          onClose={() => dispatch({ type: "HIDE_MODAL_ADD_TO_COLLECTION" })}
+          showModal={showAddAnimeToCollectionModal}
+          onClose={() =>
+            setShowAddAnimeToCollectionModal(!showAddAnimeToCollectionModal)
+          }
         >
           <Formik
             initialValues={{ id: "", collection_name: "" }}
@@ -144,7 +141,6 @@ export default function AnimeDetails() {
                   );
                 } else {
                   handleCreateNewCollection(id, collection_name);
-                  console.log(state.collections);
                   resetForm({
                     values: { id: "", collection_name: "" },
                     isSubmitting: true,
@@ -155,7 +151,6 @@ export default function AnimeDetails() {
                 }
               } else {
                 handleCreateNewCollection(id, collection_name);
-                console.log(state.collections);
                 resetForm({
                   values: { id: "", collection_name: "" },
                   isSubmitting: true,
