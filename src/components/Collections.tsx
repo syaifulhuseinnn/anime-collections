@@ -72,7 +72,9 @@ const CollectionItem = styled.article`
   background-color: rgba(16, 15, 15, 1);
 `;
 
-const CollectionItemHeader = styled.div``;
+const CollectionItemHeader = styled.div`
+  min-height: 119px;
+`;
 
 const CollectionCoverImage = styled.img`
   max-width: 100%;
