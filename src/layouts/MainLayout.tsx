@@ -16,7 +16,9 @@ export default function MainLayout({
   return (
     <Container>
       <Header>
-        <AppName>ANIMEXPLORER.COM</AppName>
+        <AppName>
+          ANIME<span style={{ color: "var(--pink)" }}>X</span>PLORER.COM
+        </AppName>
         <Navbar />
       </Header>
       {showJumbotronDefault && <JumbotronDefault />}

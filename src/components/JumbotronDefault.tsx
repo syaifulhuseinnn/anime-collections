@@ -4,6 +4,7 @@ import media from "../theme/media";
 export const Jumbotron = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 0 16px;
 
   ${media.min.large} {

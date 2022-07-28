@@ -22,6 +22,14 @@ const CharactersContainer = styled.section`
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 16px;
 
+    ${media.min.small} {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    ${media.min.medium} {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
     ${media.min.large} {
       grid-template-columns: repeat(6, 200px);
       grid-column-gap: 0;

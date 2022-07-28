@@ -20,17 +20,13 @@ import useAnimes from "../hooks/useAnimes";
 import Pagination from "../components/Pagination";
 import MainLayout from "../layouts/MainLayout";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { IndexContext } from "../context/store";
+import { Context } from "../context/store";
 
 export default function AnimeList() {
-  const [homeLinkSelected, setHomeLinkSelected] = useState(true);
-  const [collectionsLinkSelected, setCollectionsLinkSelected] = useState(false);
-  const [page, setPage] = useState<number>(1);
-
   let { page_number } = useParams();
   let navigate = useNavigate();
   const { error, animes, loading } = useAnimes(Number(page_number), 10);
-  const { state, dispatch } = useContext(IndexContext);
+  const { state, dispatch } = useContext(Context);
 
   let MAIN_ELEMENT: JSX.Element = <div></div>;
 
@@ -129,7 +125,7 @@ export default function AnimeList() {
   }
 
   // console.log({ error, animes, loading });
-  console.log(state);
+  // console.log(state.modals.addToCollection);
 
   return (
     <MainLayout showJumbotronDefault>

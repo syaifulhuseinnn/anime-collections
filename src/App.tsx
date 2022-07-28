@@ -6,6 +6,7 @@ import CollectionList from "./pages/CollectionList";
 import "@fontsource/questrial";
 import "@fontsource/bebas-neue";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { Provider } from "./context/store";
 
 function GlobalStyles() {
   return (
@@ -42,6 +43,32 @@ function GlobalStyles() {
         p {
           line-height: 1.25rem;
         }
+
+        input {
+          display: block;
+          width: 100%;
+          padding: 0.375rem 0.75rem;
+          font-size: 1rem;
+          font-weight: 400;
+          line-height: 1.5;
+          color: #212529;
+          background-color: #fff;
+          background-clip: padding-box;
+          border: 1px solid #ced4da;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          transition: border-color 0.15s ease-in-out,
+            box-shadow 0.15s ease-in-out;
+
+          &:focus {
+            color: #212529;
+            background-color: #fff;
+            border-color: var(--pink);
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem rgba(244, 115, 185, 0.35);
+          }
+        }
       `}
     />
   );
@@ -49,7 +76,7 @@ function GlobalStyles() {
 
 function App() {
   return (
-    <>
+    <Provider>
       <GlobalStyles />
       <Routes>
         <Route path="/" element={<Navigate to="anime/page/1" />} />
@@ -57,7 +84,7 @@ function App() {
         <Route path="anime/:id" element={<AnimeDetails />} />
         <Route path="collections" element={<CollectionList />} />
       </Routes>
-    </>
+    </Provider>
   );
 }
 

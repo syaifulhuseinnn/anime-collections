@@ -1,8 +1,11 @@
 import styled from "@emotion/styled";
 import media from "../theme/media";
 import Button from "./Button";
+import { Context } from "../context/store";
+import { useContext } from "react";
 
 type JumbotronAnimeDetailsProps = {
+  id: number;
   imgSrc: string;
   title: string;
   description: string;
@@ -124,7 +127,10 @@ const Stat = styled.div<StatProps>`
 export default function JumbotronAnimeDetails(
   props: JumbotronAnimeDetailsProps
 ) {
+  const { state, dispatch } = useContext(Context);
+  const { collections } = state;
   const {
+    id,
     imgSrc,
     title,
     description,
@@ -134,6 +140,12 @@ export default function JumbotronAnimeDetails(
     episodes,
     seasonYear,
   } = props;
+  const addedToCollections = collections
+    .filter((collection) => collection.data.find((i) => i.Media.id === id))
+    .map((item) => item.collection_name)
+    .join(", ");
+
+  console.log(addedToCollections);
   return (
     <JumbotronContainer>
       <JumbotronHeader>
@@ -161,9 +173,17 @@ export default function JumbotronAnimeDetails(
               <span className="icon">Genres</span>
               <span>{genres.join(", ")}</span>
             </Stat>
+            <Stat color="#D9D7F1">
+              <span className="icon">Added to</span>
+              <span>{addedToCollections}</span>
+            </Stat>
           </div>
           <div className="add-to-collection">
-            <Button>Add to collection</Button>
+            <Button
+              onClick={() => dispatch({ type: "SHOW_MODAL_ADD_TO_COLLECTION" })}
+            >
+              Add to collection
+            </Button>
           </div>
         </div>
         <div className="right">

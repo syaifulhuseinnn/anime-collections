@@ -12,7 +12,6 @@ const Button = styled.button<ButtonProps>`
   border: 1px solid #f73d93;
   font-size: 1rem;
   color: #ffffff;
-  font-weight: 400;
   line-height: 1.5;
   border-radius: ${(props) => (props.circle ? `50%` : `0`)};
   text-align: center;
@@ -57,6 +56,11 @@ const Button = styled.button<ButtonProps>`
     /* color: var(--bs-btn-active-color); */
     background-color: #f473b9;
     border-color: #f473b9;
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.65;
   }
 `;
 

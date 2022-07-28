@@ -14,7 +14,7 @@ const Nav = styled.nav`
     color: var(--white);
     font-weight: 600;
     font-size: 18px;
-    padding: 5px 14px;
+    padding: 8px 16px;
   }
 
   .active {
